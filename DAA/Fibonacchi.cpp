@@ -67,3 +67,6 @@ int main()
 
     return 0;
 }
+/*
+time complexity of recurssion:O(2^n) and for iterative approach: O(n)
+*/

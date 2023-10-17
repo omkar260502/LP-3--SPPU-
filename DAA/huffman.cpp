@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-
 using namespace std;
 
 struct Node
@@ -19,15 +18,17 @@ struct CompareNodes
     }
 };
 
-void encode(Node *root, string code, unordered_map<char, string> &huffmanCode)
+pair<char, int> encode(Node *root, string code, unordered_map<char, string> &huffmanCode)
 {
     if (root->left == nullptr && root->right == nullptr)
     {
         huffmanCode[root->data] = code;
-        return;
+        return make_pair(root->data, root->freq);
     }
-    encode(root->left, code + "0", huffmanCode);
-    encode(root->right, code + "1", huffmanCode);
+    auto left_pair = encode(root->left, code + "0", huffmanCode);
+    auto right_pair = encode(root->right, code + "1", huffmanCode);
+
+    return make_pair('\0', left_pair.second + right_pair.second);
 }
 
 unordered_map<char, string> buildHuffmanTree(string text)
@@ -85,7 +86,7 @@ int main()
     cout << "Huffman Codes:" << endl;
     for (auto entry : huffmanCode)
     {
-        cout << entry.first << ": " << entry.second << endl;
+        cout << entry.first << ": " << entry.second << ", Count: " << count(text.begin(), text.end(), entry.first) << endl;
     }
 
     string encodedMessage = encodeMessage(text, huffmanCode);
@@ -93,3 +94,9 @@ int main()
 
     return 0;
 }
+/*
+The overall time complexity of the provided code is \(O(n + k \log k)\), and the overall space complexity is \(O(k + n)\), where:
+
+- n is the length of the input text.
+- k is the number of unique characters in the input text.
+*/
