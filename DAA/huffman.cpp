@@ -45,18 +45,18 @@ unordered_map<char, string> buildHuffmanTree(string text)
         pq.push(new Node(entry.first, entry.second));
     }
 
-    while (!pq.empty())
+    while (pq.size() > 1)
     {
-        cout << pq.top()->freq << " ";
+        // cout << pq.top()->freq << " ";
+        // pq.pop();
+        Node *left = pq.top();
         pq.pop();
-        // Node *left = pq.top();
-        // pq.pop();
-        // Node *right = pq.top();
-        // pq.pop();
-        // Node *parent = new Node('$', left->freq + right->freq);
-        // parent->left = left;
-        // parent->right = right;
-        // pq.push(parent);
+        Node *right = pq.top();
+        pq.pop();
+        Node *parent = new Node('$', left->freq + right->freq);
+        parent->left = left;
+        parent->right = right;
+        pq.push(parent);
     }
 
     Node *root = pq.top();
